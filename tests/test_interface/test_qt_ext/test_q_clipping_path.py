@@ -16,7 +16,7 @@ class TestQClippingPath(unittest.TestCase):
     def test_create_clipping_area_covering_full_path(self):
         painter_path = QtGui.QPainterPath()
         painter_path.lineTo(100, 200)
-        path_item = QClippingPath(painter_path, 0, 500)
+        path_item = QClippingPath(painter_path, None, 0, 500)
         path_item.setPen(self.pen_with_zero_width)
         expected_rect = painter_path.boundingRect()
         result_rect = path_item.create_clipping_area(
@@ -29,7 +29,7 @@ class TestQClippingPath(unittest.TestCase):
     def test_create_clipping_area_starting_in_path(self):
         painter_path = QtGui.QPainterPath()
         painter_path.lineTo(100, 200)
-        path_item = QClippingPath(painter_path, 0, 500)
+        path_item = QClippingPath(painter_path, None, 0, 500)
         path_item.setPen(self.pen_with_zero_width)
         result_rect = path_item.create_clipping_area(
             painter_path.boundingRect(), 50, None, 0)
@@ -41,7 +41,7 @@ class TestQClippingPath(unittest.TestCase):
     def test_create_clipping_area_ending_in_path(self):
         painter_path = QtGui.QPainterPath()
         painter_path.lineTo(100, 200)
-        path_item = QClippingPath(painter_path, 0, 500)
+        path_item = QClippingPath(painter_path, None, 0, 500)
         path_item.setPen(self.pen_with_zero_width)
         result_rect = path_item.create_clipping_area(
             painter_path.boundingRect(), None, 50, 0)
@@ -53,7 +53,7 @@ class TestQClippingPath(unittest.TestCase):
     def test_create_clipping_area_starting_and_ending_in_path(self):
         painter_path = QtGui.QPainterPath()
         painter_path.lineTo(100, 200)
-        path_item = QClippingPath(painter_path, 0, 500)
+        path_item = QClippingPath(painter_path, None, 0, 500)
         path_item.setPen(self.pen_with_zero_width)
         result_rect = path_item.create_clipping_area(
             painter_path.boundingRect(), 25, 30, 0)
