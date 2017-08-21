@@ -17,7 +17,7 @@ class Viewport(QtWidgets.QGraphicsView):
         super().__init__(scene)
         # Default configs
         self.setRenderHint(QtGui.QPainter.Antialiasing)
-        self.setDragMode(1)  # ScrollHandDrag
+        #self.setDragMode(1)  # ScrollHandDrag
 
     def wheelEvent(self, event):
         """Zoom in or out of the view."""

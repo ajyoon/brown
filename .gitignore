@@ -24,6 +24,6 @@ htmlcov
 # Qt Creator project files
 # (assuming project name `brown`)
 brown.config
-brown.creator
+brown.creator*
 brown.files
 brown.includes

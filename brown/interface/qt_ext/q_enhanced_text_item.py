@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, Qt
 
 from brown.interface.qt_ext.q_clipping_path import QClippingPath
 from brown.interface.qt_to_util import unit_to_qt_float
@@ -76,3 +76,10 @@ class QEnhancedTextItem(QtWidgets.QGraphicsSimpleTextItem):
         painter.setClipRect(clip_area)
         super().paint(painter, option, widget)
         painter.restore()
+
+    def mousePressEvent(self, event):
+        self._pos_before_move = self.scenePos()
+
+    def mouseMoveEvent(self, event):
+        delta = event.scenePos() - event.buttonDownScenePos(1)
+        self.setPos(self._pos_before_move + delta)
