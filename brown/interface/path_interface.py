@@ -67,7 +67,7 @@ class PathInterface(GraphicObjectInterface):
         """
         super().__init__(brown_object)
         self._qt_path = QtGui.QPainterPath()
-        self.qt_object = QClippingPath(self._qt_path,
+        self.qt_object = QClippingPath(self._qt_path, self,
                                         clip_start_x, clip_width)
         self.pos = pos
         self.pen = pen

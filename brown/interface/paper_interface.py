@@ -34,6 +34,6 @@ class PaperInterface(QPageLayout):
                 ),
             ),
             QPageLayout.Portrait,
-            # Ignore margins - see class docstring
+            # Ignore margins - see init docstring
             QMarginsF(0, 0, 0, 0)
         )

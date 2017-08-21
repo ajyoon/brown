@@ -37,6 +37,7 @@ class TextInterface(GraphicObjectInterface):
         self.clip_width = clip_width
         self.qt_object = QEnhancedTextItem(
             self.text,
+            interface=self,
             origin_offset=point_to_qt_point_f(self.origin_offset),
             scale_factor=self.scale_factor,
             clip_start_x=self.clip_start_x,

@@ -1,10 +1,11 @@
-from PyQt5 import QtWidgets, QtCore, Qt
+from PyQt5 import QtWidgets, QtCore
 
 from brown.interface.qt_ext.q_clipping_path import QClippingPath
+from brown.interface.qt_ext.q_earle_overridden import QEarleOverridden
 from brown.interface.qt_to_util import unit_to_qt_float
 
 
-class QEnhancedTextItem(QtWidgets.QGraphicsSimpleTextItem):
+class QEnhancedTextItem(QtWidgets.QGraphicsSimpleTextItem, QEarleOverridden):
 
     """A text item giving explicit control over positioning and scale.
 
@@ -20,6 +21,7 @@ class QEnhancedTextItem(QtWidgets.QGraphicsSimpleTextItem):
 
     def __init__(self,
                  *args,
+                 interface,
                  origin_offset=None,
                  scale_factor=1,
                  clip_start_x=None,
@@ -27,6 +29,7 @@ class QEnhancedTextItem(QtWidgets.QGraphicsSimpleTextItem):
                  **kwargs):
         """
         Args:
+            interface (Interface): The brown interface which owns this object.
             origin_offset (QPointF): The offset of the glyph's origin from (0, 0)
             scale_factor (float): A hard scaling factor.
             clip_start_x (Unit or None): The local starting position for the
@@ -40,7 +43,8 @@ class QEnhancedTextItem(QtWidgets.QGraphicsSimpleTextItem):
         self.scale_factor = scale_factor
         self.clip_start_x = clip_start_x
         self.clip_width = clip_width
-        super().__init__(*args, **kwargs)
+        QtWidgets.QGraphicsSimpleTextItem.__init__(self, *args, **kwargs,
+                                                   interface=interface)
 
     def boundingRect(self):
         rect = super().boundingRect()
@@ -76,10 +80,3 @@ class QEnhancedTextItem(QtWidgets.QGraphicsSimpleTextItem):
         painter.setClipRect(clip_area)
         super().paint(painter, option, widget)
         painter.restore()
-
-    def mousePressEvent(self, event):
-        self._pos_before_move = self.scenePos()
-
-    def mouseMoveEvent(self, event):
-        delta = event.scenePos() - event.buttonDownScenePos(1)
-        self.setPos(self._pos_before_move + delta)

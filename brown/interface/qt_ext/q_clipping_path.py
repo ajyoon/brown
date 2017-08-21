@@ -1,9 +1,10 @@
-from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5 import QtCore, QtWidgets
 
+from brown.interface.qt_ext.q_earle_overridden import QEarleOverridden
 from brown.utils.units import GraphicUnit
 
 
-class QClippingPath(QtWidgets.QGraphicsPathItem):
+class QClippingPath(QtWidgets.QGraphicsPathItem, QEarleOverridden):
 
     """A QGraphicsPathItem extension supporting horizontal path clipping.
 
@@ -11,11 +12,12 @@ class QClippingPath(QtWidgets.QGraphicsPathItem):
     horizontal slice of the path.
     """
 
-    def __init__(self, qt_path, clip_start_x, clip_width):
+    def __init__(self, qt_path, interface, clip_start_x, clip_width):
         """
         Args:
             qt_path (QPainterPath): The path for the item. This value should
                 be the same as in `QGraphicsPathItem.__init__()`
+            interface (Interface): The brown interface which owns this object.
             clip_start_x (Unit or None): The local starting position for the
                 path clipping region. Use `None` to render from the start.
             clip_width (Unit or None): The width of the path clipping region.
@@ -23,7 +25,7 @@ class QClippingPath(QtWidgets.QGraphicsPathItem):
         """
         self.clip_start_x = clip_start_x
         self.clip_width = clip_width
-        super().__init__(qt_path)
+        QtWidgets.QGraphicsSimpleTextItem.__init__(self, qt_path, interface=interface)
 
     def paint(self, painter, *args, **kwargs):
         """Paint with automatic clipping.

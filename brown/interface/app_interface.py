@@ -38,7 +38,6 @@ class AppInterface(Interface):
     def show(self):
         """Open a window showing a preview of the document."""
         print('Launching Qt Application instance')
-        #self.view.show()
         self.main_window.show()
         self.app.exit(self.app.exec_())
 
