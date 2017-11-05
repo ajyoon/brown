@@ -29,6 +29,7 @@ class Unit:
         >>> print(2 * Inch(1))
         Inch(2)
         >>> print(1 + Inch(1))
+
         Traceback (most recent call last):
          ...
         TypeError: unsupported operand type(s) for +: 'int' and 'Inch'
@@ -36,7 +37,7 @@ class Unit:
 
     __slots__ = ('value',)
 
-    _conversion_rate = 1
+    CONVERSION_RATE = 1
     """float: the ratio of this class to `Unit`s.
 
     Subclasses should override this.
@@ -58,7 +59,7 @@ class Unit:
         elif isinstance(value, Unit):
             # Convertible type, so convert value
             self.value = (value._to_base_unit_float()
-                          / self._conversion_rate)
+                          / self.CONVERSION_RATE)
             if isinstance(self.value, float) and self.value.is_integer():
                 self.value = int(self.value)
         else:
@@ -86,7 +87,7 @@ class Unit:
 
         Returns: float
         """
-        return self.value * self._conversion_rate
+        return self.value * self.CONVERSION_RATE
 
     def _assert_almost_equal(self, other, places=7):
         """Assert the near-equality of two units.
@@ -209,22 +210,22 @@ class GraphicUnit(Unit):
 
     In most cases, you probably want to use a more descriptive unit type.
     """
-    _conversion_rate = 1
+    CONVERSION_RATE = 1
 
 
 class Inch(Unit):
     """An inch."""
-    _conversion_rate = 300
+    CONVERSION_RATE = 300
 
 
 class Mm(Unit):
     """A millimeter."""
-    _conversion_rate = Inch._conversion_rate * 0.0393701
+    CONVERSION_RATE = Inch.CONVERSION_RATE * 0.0393701
 
 
 class Meter(Unit):
     """A meter."""
-    _conversion_rate = Mm._conversion_rate * 1000
+    CONVERSION_RATE = Mm.CONVERSION_RATE * 1000
 
 
 def _convert_all_to_unit_in_immutable(iterable, unit):
@@ -233,7 +234,7 @@ def _convert_all_to_unit_in_immutable(iterable, unit):
     This is a helper function for convert_all_to_unit
 
     Args:
-        iter: The immutable iterable to recursively convert
+        iterable (Iterable): The immutable iterable to recursively convert
         unit (type): The unit to convert numerical elements to
 
     Returns:
@@ -244,6 +245,7 @@ def _convert_all_to_unit_in_immutable(iterable, unit):
     convert_all_to_unit(mutable_iterable, unit)
     return type(iterable)(mutable_iterable)
 
+
 def convert_all_to_unit(iterable, unit):
     """Recursively convert all numbers found in an iterable to a unit in place.
 
@@ -253,7 +255,7 @@ def convert_all_to_unit(iterable, unit):
     In dictionaries, *only values* will be converted. Keys will be left as-is.
 
     Args:
-        iterable [list, dict]: The iterable to recursive convert
+        iterable (Iterable): The iterable to recursively convert
         unit (type): The unit to convert numerical elements to
 
     Returns:
