@@ -29,7 +29,6 @@ class Unit:
         >>> print(2 * Inch(1))
         Inch(2)
         >>> print(1 + Inch(1))
-
         Traceback (most recent call last):
          ...
         TypeError: unsupported operand type(s) for +: 'int' and 'Inch'
